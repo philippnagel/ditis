@@ -15,6 +15,13 @@
 			"when": 1773571734162,
 			"tag": "0001_bizarre_komodo",
 			"breakpoints": true
+		},
+		{
+			"idx": 2,
+			"version": "6",
+			"when": 1773577837203,
+			"tag": "0002_daily_professor_monster",
+			"breakpoints": true
 		}
 	]
 }

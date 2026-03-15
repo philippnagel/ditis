@@ -2,13 +2,14 @@ import { Database } from "bun:sqlite";
 import { count, desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/bun-sqlite";
 import { migrate } from "drizzle-orm/bun-sqlite/migrator";
-import { notes, sources, targets } from "./schema.js";
+import { expeditions, notes, sources, targets } from "./schema.js";
 import { computeScore, type ScoreFactors } from "./scoring.js";
 
 export type Target = typeof targets.$inferSelect;
 export type Source = typeof sources.$inferSelect;
 export type Note = typeof notes.$inferSelect;
-type NewTarget = typeof targets.$inferInsert;
+export type Expedition = typeof expeditions.$inferSelect;
+export type NewTarget = typeof targets.$inferInsert;
 
 const sqlite = new Database("ditis.db", { create: true });
 export const db = drizzle(sqlite);
@@ -544,6 +545,43 @@ const DEMO_NOTES: Record<TargetName, string[]> = {
 	],
 };
 
+const DEMO_EXPEDITIONS: {
+	target_name: TargetName;
+	name: string;
+	stage: "research" | "survey" | "validation" | "recovery";
+	status: "planned" | "active" | "complete" | "cancelled";
+	budget_usd?: number;
+	team?: string;
+	start_date?: string;
+	end_date?: string;
+	notes?: string;
+}[] = [
+	{
+		target_name: "1715 Spanish Treasure Fleet",
+		name: "FL Lease Survey — Phase 1",
+		stage: "survey",
+		status: "planned",
+		budget_usd: 45000,
+		team: "P. Nagel (lead), T. Fischer (AUV), C. Walker (marine arch.)",
+		start_date: "2026-10-01",
+		end_date: "2026-10-14",
+		notes:
+			"14-day AUV magnetometer sweep of northern search corridor (Wabasso to Sebastian Inlet). Primary goal: systematic coverage of unswept 40% of debris field. Secondary: establish baseline for permit renewal in Dec 2027.",
+	},
+	{
+		target_name: "English Farmland Hoards",
+		name: "East Anglia Drone Survey — Hoxne Parish",
+		stage: "survey",
+		status: "planned",
+		budget_usd: 12000,
+		team: "P. Nagel (lead), R. Hughes (drone operator)",
+		start_date: "2026-11-15",
+		end_date: "2026-11-22",
+		notes:
+			"GPR drone sweep of the three highest-priority parcels in Hoxne parish identified via PAS cross-reference. Landowner agreements in progress.",
+	},
+];
+
 const [{ sourceTotal }] = db
 	.select({ sourceTotal: count() })
 	.from(sources)
@@ -572,6 +610,20 @@ if (sourceTotal === 0) {
 	}
 }
 
+const [{ expTotal }] = db.select({ expTotal: count() }).from(expeditions).all();
+
+if (expTotal === 0) {
+	const allTargets = db.select().from(targets).all();
+	const targetsByName = new Map(allTargets.map((t) => [t.name, t.id]));
+	for (const { target_name, ...exp } of DEMO_EXPEDITIONS) {
+		const tid = targetsByName.get(target_name);
+		if (!tid) continue;
+		db.insert(expeditions)
+			.values({ target_id: tid, ...exp })
+			.run();
+	}
+}
+
 // ─── Targets ──────────────────────────────────────────────────────────────────
 
 export function getAllTargets(): Target[] {
@@ -580,6 +632,22 @@ export function getAllTargets(): Target[] {
 
 export function getTarget(id: number): Target | null {
 	return db.select().from(targets).where(eq(targets.id, id)).get() ?? null;
+}
+
+export function deleteTarget(id: number): void {
+	db.delete(expeditions).where(eq(expeditions.target_id, id)).run();
+	db.delete(notes).where(eq(notes.target_id, id)).run();
+	db.delete(sources).where(eq(sources.target_id, id)).run();
+	db.delete(targets).where(eq(targets.id, id)).run();
+}
+
+export function addTarget(data: Omit<NewTarget, "id" | "score">): Target {
+	const score = computeScore(data as ScoreFactors);
+	return db
+		.insert(targets)
+		.values({ ...data, score })
+		.returning()
+		.get();
 }
 
 export function updateScores(id: number, factors: ScoreFactors): void {
@@ -604,6 +672,29 @@ export function getSourcesForTarget(targetId: number): Source[] {
 		.all();
 }
 
+export function recalcHistoricalConfidence(targetId: number): void {
+	const rows = db
+		.select({ w: sources.confidence_weight })
+		.from(sources)
+		.where(eq(sources.target_id, targetId))
+		.all();
+	if (rows.length === 0) return;
+	const avg = Math.round(rows.reduce((s, r) => s + r.w, 0) / rows.length);
+	const target = db
+		.select()
+		.from(targets)
+		.where(eq(targets.id, targetId))
+		.get();
+	if (!target) return;
+	db.update(targets)
+		.set({
+			historical_confidence: avg,
+			score: computeScore({ ...target, historical_confidence: avg }),
+		})
+		.where(eq(targets.id, targetId))
+		.run();
+}
+
 export function addSource(data: {
 	target_id: number;
 	title: string;
@@ -613,10 +704,17 @@ export function addSource(data: {
 	excerpt?: string | null;
 }): void {
 	db.insert(sources).values(data).run();
+	recalcHistoricalConfidence(data.target_id);
 }
 
 export function deleteSource(id: number): void {
+	const src = db
+		.select({ target_id: sources.target_id })
+		.from(sources)
+		.where(eq(sources.id, id))
+		.get();
 	db.delete(sources).where(eq(sources.id, id)).run();
+	if (src) recalcHistoricalConfidence(src.target_id);
 }
 
 // ─── Notes ────────────────────────────────────────────────────────────────────
@@ -636,4 +734,25 @@ export function addNote(targetId: number, content: string): void {
 
 export function deleteNote(id: number): void {
 	db.delete(notes).where(eq(notes.id, id)).run();
+}
+
+// ─── Expeditions ──────────────────────────────────────────────────────────────
+
+export function getExpeditionsForTarget(targetId: number): Expedition[] {
+	return db
+		.select()
+		.from(expeditions)
+		.where(eq(expeditions.target_id, targetId))
+		.orderBy(desc(expeditions.created_at))
+		.all();
+}
+
+export function addExpedition(
+	data: Omit<typeof expeditions.$inferInsert, "id" | "created_at">,
+): Expedition {
+	return db.insert(expeditions).values(data).returning().get();
+}
+
+export function deleteExpedition(id: number): void {
+	db.delete(expeditions).where(eq(expeditions.id, id)).run();
 }

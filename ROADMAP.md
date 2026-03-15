@@ -7,7 +7,7 @@
 - [x] Schema: `targets` table with 6-factor scoring model
 - [x] Seed data: 13 targets (Tier 1–4) from spec
 - [x] Drizzle migrations (auto-applied on startup)
-- [ ] `expeditions` table (stage, budget, team, dates)
+- [x] `expeditions` table (stage, status, budget, team, dates)
 - [ ] `sensor_passes` table (drone surveys linked to targets)
 - [x] `field_reports` table (free-text + structured findings — `notes` table)
 - [x] `sources` table (archival documents, links, confidence weight)
@@ -16,19 +16,20 @@
 - [x] 6-factor weighted composite score
 - [x] Score stored and indexed for fast ranking
 - [x] Score recalculation API endpoint (`PATCH /targets/:id/scores`)
-- [ ] Event-driven re-score when new source or sensor pass is added
+- [x] Go/No-Go gate indicator (score + legal feasibility thresholds)
+- [x] Event-driven re-score when new source is added (historical_confidence = avg source confidence_weight)
 - [ ] Drift/decay model (score degrades without recent validation)
 
 ### REST API
-- [x] JSON REST API under `/api/` prefix (targets, sources, notes CRUD)
+- [x] JSON REST API under `/api/` prefix (targets, sources, notes, expeditions CRUD)
 - [x] OpenAPI 3.1 spec auto-generated via `hono-openapi` at `/api/openapi.json`
 - [x] Scalar API reference UI at `/api/docs`
 - [x] Zod request/response schemas (`src/schemas.ts`)
 
 ### Ingest Pipeline
-- [ ] Manual target entry form (UI)
+- [x] Manual target entry form (UI)
 - [ ] Archival document upload + OCR (basic)
-- [ ] NLP/NER extraction (ships, dates, locations, cargo) — spaCy or HF/Typescript possible?
+- [ ] NLP/NER extraction (ships, dates, locations, cargo)
 - [ ] Geocoding of location references from historical text
 - [ ] Sensor data ingest (sonar imagery → anomaly flag)
 
@@ -42,29 +43,45 @@
 - [x] Hover tooltip (name, score, tier)
 - [x] Click to fly-to and select target
 - [x] Dark / light mode toggle (persisted)
-- [ ] Layer toggles (historical shipping routes, jurisdiction boundaries)
+- [x] Search/filter sidebar synced to map (non-matching dots greyed out)
+- [x] Layer toggles (historical trade routes: Spanish Flota, Manila Galleon, Portuguese India, Dutch/English East India)
 - [ ] Search area draw tool → filter targets within polygon
 - [ ] Heatmap overlay for target density
-- [ ] Replace externally loaded libraries with direct imports & build with `bun build`
+- [x] Replace externally loaded libraries with direct imports & build with `bun build`
 
 ### Sidebar & Target Intelligence
 - [x] Ranked target list (score DESC)
 - [x] Score badges color-coded (green / amber / red)
 - [x] Tier badges (T1–T4)
+- [x] Go/No-Go pill on each target row
 - [x] Detail panel: composite score, 6 factor sliders, metadata, description
 - [x] Inline score editing (adjust factors, see score update live)
 - [x] Source documents panel (list of archival sources per target)
 - [x] Research notes panel (timestamped free-text notes per target)
 - [x] Pipeline stats bar (target count + total estimated value)
 - [x] Target status workflow selector (Research → Survey → Validation → Recovery → Complete)
-- [ ] Expedition history panel (past survey/recovery attempts)
-- [ ] "Go / No-Go" gate status indicator per expedition phase
+- [x] Target create (modal form) and delete (via ⋯ kebab menu)
+- [x] Expedition history panel (past and planned survey/recovery expeditions)
+- [x] Go/No-Go gate status indicator (score ≥ 65 + legal_feasibility ≥ 50)
+- [x] Monte Carlo ROI simulation (10,000 trials, per-target, configurable budget + finder share)
+- [x] Print intelligence report (browser print via ⋯ kebab menu)
+- [ ] "Go / No-Go" gate per expedition phase (depends on sensor_passes)
 
 ### Expedition Planner
 - [ ] Auto-generated expedition plan from target data
 - [ ] Stage-gate workflow (Research → Survey → Validation → Recovery)
-- [ ] Monte Carlo ROI simulation
+- [x] Monte Carlo ROI simulation
 - [ ] Cost estimate builder (equipment, crew, permits, logistics)
+
+### Public Landing Page
+
+- [ ] Implement public website as a static site with markdown content
+
+### Administration Features
+
+- [ ] SSO-based authentication and user roles
+- [ ] Deployment of the platform 
+- [ ] Deployment of the landing page
 
 ---
 

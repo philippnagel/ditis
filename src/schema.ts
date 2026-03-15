@@ -39,6 +39,28 @@ export const sources = sqliteTable("sources", {
 		.$defaultFn(() => new Date().toISOString()),
 });
 
+export const expeditions = sqliteTable("expeditions", {
+	id: integer("id").primaryKey({ autoIncrement: true }),
+	target_id: integer("target_id").notNull(),
+	name: text("name").notNull(),
+	stage: text("stage", {
+		enum: ["research", "survey", "validation", "recovery"],
+	}).notNull(),
+	status: text("status", {
+		enum: ["planned", "active", "complete", "cancelled"],
+	})
+		.notNull()
+		.default("planned"),
+	budget_usd: integer("budget_usd"),
+	team: text("team"),
+	start_date: text("start_date"),
+	end_date: text("end_date"),
+	notes: text("notes"),
+	created_at: text("created_at")
+		.notNull()
+		.$defaultFn(() => new Date().toISOString()),
+});
+
 export const notes = sqliteTable("notes", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
 	target_id: integer("target_id").notNull(),

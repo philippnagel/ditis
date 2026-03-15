@@ -2,19 +2,27 @@ import { Hono } from "hono";
 import { describeRoute, openAPIRouteHandler, resolver } from "hono-openapi";
 import z from "zod";
 import {
+	addExpedition,
 	addNote,
 	addSource,
+	addTarget,
+	deleteExpedition,
 	deleteNote,
 	deleteSource,
+	deleteTarget,
 	getAllTargets,
+	getExpeditionsForTarget,
 	getNotesForTarget,
 	getSourcesForTarget,
 	getTarget,
 	updateScores,
 } from "./db.js";
 import {
+	ExpeditionSchema,
+	NewExpeditionSchema,
 	NewNoteSchema,
 	NewSourceSchema,
+	NewTargetSchema,
 	NoteSchema,
 	ScoreFactorsSchema,
 	SourceSchema,
@@ -26,6 +34,62 @@ export const api = new Hono();
 const r404 = { description: "Target not found" };
 
 // ─── Targets ──────────────────────────────────────────────────────────────────
+
+api.post(
+	"/targets",
+	describeRoute({
+		summary: "Create a target",
+		tags: ["Targets"],
+		requestBody: {
+			required: true,
+			content: {
+				// biome-ignore lint/suspicious/noExplicitAny: resolver() return is processed by hono-openapi at runtime
+				"application/json": { schema: resolver(NewTargetSchema) as any },
+			},
+		},
+		responses: {
+			201: {
+				description: "Created target",
+				content: { "application/json": { schema: resolver(TargetSchema) } },
+			},
+			400: { description: "Validation error" },
+		},
+	}),
+	async (c) => {
+		const body = await c.req.json();
+		const parsed = NewTargetSchema.safeParse(body);
+		if (!parsed.success) return c.json({ error: parsed.error.issues }, 400);
+		const target = addTarget(parsed.data);
+		return c.json(target, 201);
+	},
+);
+
+api.delete(
+	"/targets/:id",
+	describeRoute({
+		summary: "Delete a target",
+		description:
+			"Deletes the target and all associated sources, notes, and expeditions.",
+		tags: ["Targets"],
+		responses: {
+			200: {
+				description: "Deleted",
+				content: {
+					"application/json": {
+						schema: resolver(z.object({ success: z.literal(true) })),
+					},
+				},
+			},
+			404: r404,
+		},
+	}),
+	(c) => {
+		const id = Number(c.req.param("id"));
+		if (!getTarget(id)) return c.json({ error: "Not found" }, 404);
+		deleteTarget(id);
+		return c.json({ success: true as const });
+	},
+);
 
 api.get(
 	"/targets",
@@ -243,6 +307,88 @@ api.delete(
 	}),
 	(c) => {
 		deleteNote(Number(c.req.param("nid")));
+		return c.json({ success: true as const });
+	},
+);
+
+// ─── Expeditions ──────────────────────────────────────────────────────────────
+
+api.get(
+	"/targets/:id/expeditions",
+	describeRoute({
+		summary: "List expeditions for a target",
+		tags: ["Expeditions"],
+		responses: {
+			200: {
+				description: "Expeditions list",
+				content: {
+					"application/json": {
+						schema: resolver(z.array(ExpeditionSchema)),
+					},
+				},
+			},
+			404: r404,
+		},
+	}),
+	(c) => {
+		const id = Number(c.req.param("id"));
+		if (!getTarget(id)) return c.json({ error: "Not found" }, 404);
+		return c.json(getExpeditionsForTarget(id));
+	},
+);
+
+api.post(
+	"/targets/:id/expeditions",
+	describeRoute({
+		summary: "Add an expedition to a target",
+		tags: ["Expeditions"],
+		requestBody: {
+			required: true,
+			content: {
+				// biome-ignore lint/suspicious/noExplicitAny: resolver() return is processed by hono-openapi at runtime
+				"application/json": { schema: resolver(NewExpeditionSchema) as any },
+			},
+		},
+		responses: {
+			201: {
+				description: "Created expedition",
+				content: {
+					"application/json": { schema: resolver(ExpeditionSchema) },
+				},
+			},
+			400: { description: "Validation error" },
+			404: r404,
+		},
+	}),
+	async (c) => {
+		const id = Number(c.req.param("id"));
+		if (!getTarget(id)) return c.json({ error: "Not found" }, 404);
+		const body = await c.req.json();
+		const parsed = NewExpeditionSchema.safeParse(body);
+		if (!parsed.success) return c.json({ error: parsed.error.issues }, 400);
+		const exp = addExpedition({ target_id: id, ...parsed.data });
+		return c.json(exp, 201);
+	},
+);
+
+api.delete(
+	"/targets/:id/expeditions/:eid",
+	describeRoute({
+		summary: "Delete an expedition",
+		tags: ["Expeditions"],
+		responses: {
+			200: {
+				description: "Deleted",
+				content: {
+					"application/json": {
+						schema: resolver(z.object({ success: z.literal(true) })),
+					},
+				},
+			},
+		},
+	}),
+	(c) => {
+		deleteExpedition(Number(c.req.param("eid")));
 		return c.json({ success: true as const });
 	},
 );

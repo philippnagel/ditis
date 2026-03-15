@@ -25,6 +25,23 @@ export const TargetSchema = z.object({
 	score: z.number().describe("Composite score (0–100)"),
 });
 
+export const NewTargetSchema = z.object({
+	name: z.string().min(1),
+	description: z.string().default(""),
+	lat: z.number().min(-90).max(90),
+	lng: z.number().min(-180).max(180),
+	tier: z.number().int().min(1).max(4),
+	est_value_usd: z.number().int().min(0),
+	legal_framework: z.string().default(""),
+	depth_m: z.number().int().nullable().optional(),
+	historical_confidence: z.number().int().min(0).max(100).default(50),
+	value_score: z.number().int().min(0).max(100).default(50),
+	location_precision: z.number().int().min(0).max(100).default(50),
+	legal_feasibility: z.number().int().min(0).max(100).default(50),
+	recovery_ease: z.number().int().min(0).max(100).default(50),
+	sensor_validation: z.number().int().min(0).max(100).default(0),
+});
+
 export const ScoreFactorsSchema = z.object({
 	historical_confidence: z
 		.number()
@@ -67,4 +84,31 @@ export const NoteSchema = z.object({
 
 export const NewNoteSchema = z.object({
 	content: z.string().min(1),
+});
+
+export const ExpeditionSchema = z.object({
+	id: z.number().int(),
+	target_id: z.number().int(),
+	name: z.string(),
+	stage: z.enum(["research", "survey", "validation", "recovery"]),
+	status: z.enum(["planned", "active", "complete", "cancelled"]),
+	budget_usd: z.number().int().nullable(),
+	team: z.string().nullable(),
+	start_date: z.string().nullable(),
+	end_date: z.string().nullable(),
+	notes: z.string().nullable(),
+	created_at: z.string(),
+});
+
+export const NewExpeditionSchema = z.object({
+	name: z.string().min(1),
+	stage: z.enum(["research", "survey", "validation", "recovery"]),
+	status: z
+		.enum(["planned", "active", "complete", "cancelled"])
+		.default("planned"),
+	budget_usd: z.number().int().nullable().optional(),
+	team: z.string().nullable().optional(),
+	start_date: z.string().nullable().optional(),
+	end_date: z.string().nullable().optional(),
+	notes: z.string().nullable().optional(),
 });

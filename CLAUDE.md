@@ -14,11 +14,13 @@ The current codebase is a working MVP — not a prototype or spec. It runs as a 
 
 | Layer | Technology |
 |---|---|
-| Runtime | Bun (TypeScript, no build step) |
+| Runtime | Bun (TypeScript) |
 | Web framework | Hono v4 |
 | Database | SQLite via `bun:sqlite` + Drizzle ORM |
 | Migrations | Drizzle Kit (auto-applied at startup) |
-| UI | Server-rendered HTML + HTMX + Deck.gl + MapLibre GL (CDN) |
+| UI | Server-rendered HTML + HTMX + Deck.gl + MapLibre GL |
+| Client bundle | Bun.build → `public/app.js` |
+| CSS | Tailwind CSS v4 (CLI) → `public/app.css` |
 | Theming | CSS custom properties, dark/light via `[data-theme]` on `<html>` |
 | API docs | hono-openapi + Scalar UI at `/api/docs` |
 | Linter/formatter | Biome (tabs, strict) |
@@ -43,16 +45,23 @@ Visualization UI (GIS mapping via Deck.gl, Investor Portal)
 
 ## Code Structure
 
-| File | Purpose |
+| File/Dir | Purpose |
 |---|---|
-| `src/index.ts` | Hono app entry point; HTMX routes, HTML rendering, CSS, client JS |
+| `src/index.ts` | Hono app entry point; mounts static files, API, and UI routes |
 | `src/api.ts` | JSON REST API (`/api/*`); all routes documented with `describeRoute` |
+| `src/routes/ui.ts` | All HTMX route handlers (HTML partials) |
+| `src/templates/` | HTML template functions: `page`, `detail`, `target-row`, `sources`, `notes`, `helpers` |
+| `src/client/` | Browser-side TypeScript: `main.ts` (entry), `map.ts` (deck.gl + maplibre), `score.ts` (slider logic), `theme.ts` (map style constants) |
 | `src/db.ts` | Drizzle DB setup, migrations, seed data (targets + demo sources/notes), query functions |
 | `src/schema.ts` | Drizzle table definitions (`targets`, `sources`, `notes`) |
 | `src/schemas.ts` | Zod schemas for API request/response validation and OpenAPI spec |
 | `src/scoring.ts` | 6-factor weighted composite score formula and helpers |
+| `styles/app.css` | All CSS; imported by Tailwind CLI to produce `public/app.css` |
+| `build.ts` | JS bundle script (runs `Bun.build` → `public/app.js`) |
+| `dev.ts` | Dev runner: spawns server, JS watcher, and CSS watcher concurrently |
+| `public/` | Build output (gitignored): `app.js`, `app.css` |
 
-**Routing split:** HTMX UI routes live in `index.ts` (paths like `/targets/:id/detail`). JSON API routes live in `api.ts`, mounted at `/api` in `index.ts`. Routes without `describeRoute` are automatically excluded from the OpenAPI spec.
+**Routing split:** HTMX UI routes live in `src/routes/ui.ts`. JSON API routes live in `api.ts`, mounted at `/api`. Static assets (`public/`) are served by Hono's `serveStatic`. Routes without `describeRoute` are excluded from the OpenAPI spec.
 
 **Seeding:** Targets seed on first run if the `targets` table is empty. Demo sources and notes seed if the `sources` table is empty. To reset everything: `rm ditis.db` — the DB is recreated and re-seeded on next start.
 
@@ -60,8 +69,9 @@ Visualization UI (GIS mapping via Deck.gl, Investor Portal)
 
 ```bash
 bun install                 # install dependencies
-bun dev                     # dev server with hot reload on :3000
-bun start                   # production server on :3000
+bun dev                     # dev: server + JS watcher + CSS watcher on :3001
+bun run build               # production build (CSS + JS bundles → public/)
+bun start                   # production server on :3001 (run build first)
 bun tsc                     # typecheck (no emit)
 bun lint                    # biome check + autofix
 bunx drizzle-kit generate   # generate migration after schema changes

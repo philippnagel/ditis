@@ -46,6 +46,17 @@ export function scoreColor(score: number): string {
 	return "#6b7280";
 }
 
+export type GoNoGo = "go" | "watch" | "nogo";
+
+export function goNoGo(t: {
+	score: number;
+	legal_feasibility: number;
+}): GoNoGo {
+	if (t.score >= 65 && t.legal_feasibility >= 50) return "go";
+	if (t.score >= 40) return "watch";
+	return "nogo";
+}
+
 export function tierLabel(tier: number): string {
 	return (
 		["", "T1 — Launch", "T2 — Growth", "T3 — Big Bet", "T4 — Speculative"][
