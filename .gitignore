@@ -1,0 +1,33 @@
+# Bun.js dependencies and build artifacts
+node_modules/
+bun.lockb
+dist/
+build/
+.cache/
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+
+# Test coverage
+coverage/
+
+# Misc
+.env
+.env.*
+
+# DB
+ditis.db

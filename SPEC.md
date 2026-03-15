@@ -19,6 +19,41 @@ Our thesis: **the treasure hunting industry has been limited not by the existenc
 
 To become the world's leading technology-driven treasure recovery firm by building a proprietary intelligence platform that turns historical data, environmental signals, and sensor feeds into actionable expedition targets — and executing on those targets with capital efficiency and legal precision.
 
+**“Quod est deorsum, hoc est ad divitias.”**
+*(That which is below, belongs to the riches.)*
+
+#### I. The Name
+
+In the ancient Roman rite, **Dis Pater** was the "Wealthy Father"—the god of the deep earth, the mineral veins, and the hidden gems of the underworld. He was not a god of death, but a god of **subsurface abundance**. To the ancients, the greatest wealth was always *chthonic*: it lay beneath the visible world, waiting for the systematic effort of the seeker.
+
+**Ditis** is the possessive form. It signifies that which *belongs* to the Wealthy Father. We chose this name because we do not merely "find" treasure; we identify the assets that have fallen out of human circulation and into the domain of Ditis. We are the stewards of the recovery process.
+
+#### II. The Core Anthesis
+
+For centuries, the recovery of lost history has been a gamble—a domain of "rogue divers" and "fortune hunters." This era is over. The limitation of the treasure hunting industry was never a lack of targets; it was a **poverty of vision.** The sea and the soil have acted as a natural encryption for the world's lost capital. Until now, the cost to decrypt these locations exceeded the value within. **Ditis Inc.** was founded on a singular realization: *Advances in autonomous systems, probabilistic intelligence, and remote sensing have finally collapsed the cost of discovery.*
+
+#### III. The Instrument: Ditis Specula
+
+If Ditis is the father of the deep, **Ditis Core** is his Eye.
+
+Our platform—The Watchtower—does not guess. It fuses centuries of archival shadows, environmental permutations, and multi-spectral sensor feeds into a single, probabilistic truth. Where others see a vast, empty ocean, Specula sees a high-fidelity map of historical anomalies. We do not "search"; we **verify.**
+
+#### IV. The Architecture of the Vault
+
+We operate with the cold precision of an intelligence agency and the risk-adjusted discipline of a venture fund.
+
+* **The Vault (Ditis Inc.):** The immutable fortress of our Intellectual Property.
+* **The Shield (Operating Subsidiaries):** The frontline units that execute in the physical world.
+* **The Syndicate (Expedition Funds):** The mechanism by which we deploy capital into the deep.
+
+#### V. The Mandate
+
+We seek the **Merchant Royal**, the **1715 Fleet**, and the **Flor de la Mar** not merely for the gold, but for the **alpha**. We are building a compounding data moat—a digital ledger of the world's lost wealth. Every drone flight, every archival scan, and every successful recovery feeds the engine.
+
+We are the sole developers of a new era. We are the bridge between the analog past and the autonomous future.
+
+**Ditis is the Father of Riches. We are the ones who have learned to speak his language.**
+
 ### 1.2 Strategic Pillars
 
 | Pillar | Description |
@@ -230,9 +265,9 @@ Scores update dynamically as new data enters the system (e.g., a successful sona
 | Search & Retrieval | DuckDB FTS + PGVector | Full-text + semantic search over archives |
 | AI/ML | Python, PyTorch, spaCy, Hugging Face | NLP, computer vision, anomaly detection |
 | GIS | PostGIS + QGIS + Mapbox/Deck.gl | Geospatial queries, visualization |
-| Orchestration | Apache Airflow | Data pipeline scheduling and monitoring |
+| Orchestration | Apache Airflow or similar | Data pipeline scheduling and monitoring |
 | Backend API | FastAPI (Python) | RESTful API for all platform services |
-| Frontend | React + Deck.gl + D3.js | Map interface, dashboards, expedition planner |
+| Frontend | HTMX + Deck.gl + D3.js | Map interface, dashboards, expedition planner |
 | Infrastructure | AWS / GCP with Terraform | Scalable, reproducible deployment |
 | Sensor Data Processing | GDAL, PCL, SonarPy, CloudCompare | Sonar, LiDAR, GPR data processing |
 
