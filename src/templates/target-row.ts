@@ -1,5 +1,5 @@
 import type { Target } from "../db.js";
-import { goNoGo, scoreColor } from "../scoring.js";
+import { gngLabel, goNoGo, scoreColor } from "../scoring.js";
 
 export function renderTargetRow(t: Target, rank: number): string {
 	const color = scoreColor(t.score);
@@ -17,7 +17,7 @@ export function renderTargetRow(t: Target, rank: number): string {
         <div class="target-meta">
           <span class="tier-badge tier-${t.tier}">T${t.tier}</span>
           <span class="status-badge status-${t.status}">${t.status.toUpperCase()}</span>
-          <span class="gonogo-pill gonogo-${gng}">${gng === "go" ? "GO" : gng === "watch" ? "WATCH" : "NO-GO"}</span>
+          <span class="gonogo-pill gonogo-${gng}">${gngLabel(gng)}</span>
         </div>
       </div>
       <div class="score-badge" id="score-badge-${t.id}" style="color:${color}">${t.score}</div>

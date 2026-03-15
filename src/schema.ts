@@ -52,6 +52,10 @@ export const expeditions = sqliteTable("expeditions", {
 		.notNull()
 		.default("planned"),
 	budget_usd: integer("budget_usd"),
+	equipment_usd: integer("equipment_usd"),
+	crew_usd: integer("crew_usd"),
+	permits_usd: integer("permits_usd"),
+	logistics_usd: integer("logistics_usd"),
 	team: text("team"),
 	start_date: text("start_date"),
 	end_date: text("end_date"),

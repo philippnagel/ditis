@@ -81,6 +81,7 @@ We are the sole developers of a new era. We are the bridge between the analog pa
 | Bahamas / FL Keys Wrecks | Caribbean / FL | 2–15m | Bahamas antiquities license / FL lease | $10K–$2M+ | Very High |
 | Great Lakes Shipwrecks | MI, WI, OH | 5–50m | US Abandoned Shipwreck Act | $10K–$500K | High |
 | NC Merchant Wrecks (WWII) | Outer Banks, NC | 10–60m | Admiralty salvage law | $50K–$2M | High |
+| Cape of Good Hope VOC Wrecks | South African coastline | 5–40m | SAHRA permit (South African Heritage Resources Agency) | $500K–$10M+ | Very High |
 
 #### Tier 3 — Big Bets (Year 2+)
 
@@ -89,6 +90,16 @@ We are the sole developers of a new era. We are the bridge between the analog pa
 | San José Galleon | Caribbean, Colombia | 600m+ | Requires government JV | $4–17B | Legal disputes ongoing |
 | Flor de la Mar | Strait of Malacca | Shallow but murky | Malaysia/Indonesia JV | $2–3B+ | SAS-equipped AUVs needed |
 | SS Central America (remaining) | Atlantic, off Carolinas | ~2,200m | Legal precedent established | $100M–$300M | Deep-water ROV required |
+| Kolchak's Gold — Baikal Lead | Lake Baikal, km 81 Circum-Baikal Railway, Russia | ~400m | Russian government partnership required | Unknown (unidentified objects) | August 2010: Mir-2 submersible found 4 bars with "characteristic golden shine" wedged in scree at ~400m near Cape Tolstoy. Coordinates recorded; objects never retrieved due to unstable substrate. Train wreckage confirmed nearby (2009). Strongest unresolved physical lead in the entire Kolchak file. |
+| Kolchak's Gold — Japan Diplomatic Track | Yokohama / Tokyo, Japan | N/A (financial claim) | State-to-state diplomatic negotiation | ~$10B+ | Japan confirmed receipt of 55 gold boxes in 2004. Unresolved due to absence of WWII peace treaty between Russia and Japan. Not a physical recovery — a legal/diplomatic claim. Monitor for treaty progress. |
+
+#### Closed / Debunked Targets
+
+Targets removed from the active portfolio after intelligence review. Retained as reference to prevent re-investigation.
+
+| Target | Conclusion | Source |
+|--------|-----------|--------|
+| **Awa Maru** | Treasure was not aboard when sunk. NSA analysis of thousands of intercepted communications confirmed gold was successfully delivered to the Bank of Siam in Bangkok on 16 March 1945 — two weeks before the ship was torpedoed. China's $100M salvage operation (1977–1980) found only the confirmed return cargo: tin ingots and rubber. The alleged treasure was absorbed into post-war Japan–Thailand financial settlements, resolved 1956–1969. **Do not re-investigate.** | Declassified NSA intercepts; China Daqing 290 salvage report 1980; USNI Proceedings, August 1982 |
 
 #### Tier 4 — Speculative / R&D
 
@@ -98,6 +109,12 @@ We are the sole developers of a new era. We are the bridge between the analog pa
 | Merchant Royal | English Channel | SAS + AI drift modelling |
 | Lost Amazon Cities | Brazil/Peru/Bolivia | LiDAR; media/IP value primary |
 | Copper Scroll Treasures | Jordan/Israel | Hyperspectral + GPR; geopolitically sensitive |
+| Kublai Khan's Mongol Invasion Fleets | Korea Strait / Kyushu coast, Japan | Two fleets of ~4,000+ ships sunk by typhoons in 1274 and 1281; extraordinarily well-documented in Chinese and Japanese records; active archaeology ongoing but most wreck field unexcavated; multibeam + SAS survey advantage |
+| Ganj-i-Sawai | Gujarat coast / Gulf of Khambhat, India | Largest Mughal treasure ship, looted by pirate Henry Every in 1695; cargo records survive in East India Company archives (British Library); location constrained to Gujarat littoral |
+| Black Sea Anaerobic Wrecks | Black Sea (Turkish, Bulgarian, Romanian EEZ) | Anoxic layer below ~150m preserves wood, rope, and organic cargo perfectly; Byzantine and Ottoman ships recovered intact by Ballard 2000 expedition; unique preservation environment with high media/academic IP value |
+| Swahili Coast Trade Wrecks | Kenya, Tanzania, Mozambique | Arab, Indian, and Portuguese merchant vessels along a 1,000-year Indian Ocean trade corridor; almost entirely unsurveyed; Tanzanian and Kenyan permit frameworks exist |
+| Kolchak's Gold — Taiga Station Cache | ~5km radius of Taiga station, Kemerovo Oblast, Russia (~56.07°N, 85.61°E) | Terrestrial, ~2m depth | Russian government partnership required | $50M–$100M (est. 26 boxes) | Estonian soldier Karl Purrok testified his regiment buried 26 boxes of gold coins ~5km from Taiga station in October 1919. NKVD conducted excavations in 1941 with Purrok present — found nothing, but 1941 surveying was primitive. Never attempted with modern GPR. Most actionable terrestrial lead in the Kolchak file. |
+| Kolchak's Gold — Czech Legion / Legiobanka | Prague, Czech Republic (archival) | N/A | Czech–Russian archival cooperation | $500M–$1B (disputed) | Czech Legion allegedly removed 1 boxcar of gold (~63M rubles) before handing the reserve to the Bolsheviks in 1920. Capitalised the Legiobanka in Irkutsk the same year. Czech historians attribute the bank's capital to Siberian trading; Russian historians allege theft. The Vojenský historický archiv (VHA) in Prague holds the full Legion fonds — financial records have never been cross-referenced against the Soviet June 1921 audit using modern methods. Primary value: archival intelligence sprint, not physical recovery. |
 
 ### 1.4 Revenue Model
 
@@ -165,7 +182,7 @@ Ditis Core's competitive advantage begins with the breadth and depth of its inge
 
 | Source Type | Examples | Ingest Method |
 |-------------|----------|---------------|
-| Maritime records | Lloyd's of London registers, Spanish Casa de Contratación archives, Dutch VOC records | OCR + NLP extraction from digitized archives |
+| Maritime records | Lloyd's of London registers, Spanish Casa de Contratación archives, Dutch VOC records (Nationaal Archief, The Hague), Portuguese Torre do Tombo (Lisbon), British Library India Office Records, Russian State Historical Archive (RGIA) | OCR + NLP extraction from digitized archives |
 | Shipping manifests | Cargo lists, port departure logs, insurance claims | Structured parsing + entity extraction |
 | Newspaper archives | Storm reports, shipwreck accounts, robbery reports | NLP keyword extraction + geocoding |
 | Military records | U-boat patrol logs, convoy routes, battle reports | Structured + NLP |

@@ -1,5 +1,11 @@
 import type { Expedition, Note, Source, Target } from "../db.js";
-import { FACTOR_META, goNoGo, scoreColor, tierLabel } from "../scoring.js";
+import {
+	FACTOR_META,
+	gngLabel,
+	goNoGo,
+	scoreColor,
+	tierLabel,
+} from "../scoring.js";
 import { renderExpeditionsInner } from "./expeditions.js";
 import { renderNotesInner } from "./notes.js";
 import { renderSimulationForm } from "./simulation.js";
@@ -13,7 +19,6 @@ export function renderDetail(
 ): string {
 	const color = scoreColor(t.score);
 	const gng = goNoGo(t);
-	const gngLabel = gng === "go" ? "GO" : gng === "watch" ? "WATCH" : "NO-GO";
 	const factors = Object.entries(FACTOR_META) as [
 		keyof typeof FACTOR_META,
 		{ label: string; weight: string },
@@ -49,7 +54,7 @@ export function renderDetail(
       <div class="detail-header">
         <div class="detail-name">${t.name}</div>
         <div class="detail-header-badges">
-          <span class="gonogo-badge gonogo-${gng}">${gngLabel}</span>
+          <span class="gonogo-badge gonogo-${gng}">${gngLabel(gng)}</span>
           <div class="tier-badge tier-${t.tier}">${tierLabel(t.tier)}</div>
           <select class="status-select status-${t.status}"
                   name="status"

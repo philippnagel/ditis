@@ -57,6 +57,10 @@ export function goNoGo(t: {
 	return "nogo";
 }
 
+export function gngLabel(gng: GoNoGo): string {
+	return gng === "go" ? "GO" : gng === "watch" ? "WATCH" : "NO-GO";
+}
+
 export function tierLabel(tier: number): string {
 	return (
 		["", "T1 — Launch", "T2 — Growth", "T3 — Big Bet", "T4 — Speculative"][

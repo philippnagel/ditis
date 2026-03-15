@@ -35,6 +35,24 @@ export function renderSourcesInner(tid: number, srcs: Source[]): string {
     SOURCES <span class="section-count">${srcs.length}</span>
   </div>
   <div class="sources-list">${srcs.length ? items : '<p class="empty-state">No sources added yet.</p>'}</div>
+  <form class="add-form upload-form"
+        hx-post="/targets/${tid}/sources/upload"
+        hx-target="#detail-panel"
+        hx-swap="innerHTML"
+        hx-encoding="multipart/form-data">
+    <div class="upload-label">Upload document (PDF or image)</div>
+    <div class="add-form-row">
+      <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png,.webp" required class="file-input">
+      <select name="type">
+        <option value="archival">Archival</option>
+        <option value="sonar">Sonar</option>
+        <option value="survey">Survey</option>
+        <option value="imagery">Imagery</option>
+      </select>
+    </div>
+    <button class="add-btn" type="submit">↑ Upload &amp; Extract</button>
+  </form>
+  <div class="source-divider">or add manually</div>
   <form class="add-form"
         hx-post="/targets/${tid}/sources"
         hx-target="#detail-panel"

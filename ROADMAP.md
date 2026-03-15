@@ -7,7 +7,7 @@
 - [x] Schema: `targets` table with 6-factor scoring model
 - [x] Seed data: 13 targets (Tier 1–4) from spec
 - [x] Drizzle migrations (auto-applied on startup)
-- [x] `expeditions` table (stage, status, budget, team, dates)
+- [x] `expeditions` table (stage, status, budget, cost breakdown, team, dates)
 - [ ] `sensor_passes` table (drone surveys linked to targets)
 - [x] `field_reports` table (free-text + structured findings — `notes` table)
 - [x] `sources` table (archival documents, links, confidence weight)
@@ -28,7 +28,7 @@
 
 ### Ingest Pipeline
 - [x] Manual target entry form (UI) with geocoding search + manual coordinate fallback
-- [ ] Archival document upload + OCR (basic)
+- [x] Archival document upload + OCR (basic)
 - [ ] NLP/NER extraction (ships, dates, locations, cargo)
 - [ ] Geocoding of location references from historical text
 - [ ] Sensor data ingest (sonar imagery → anomaly flag)
@@ -69,10 +69,10 @@
 - [ ] "Go / No-Go" gate per expedition phase (depends on sensor_passes)
 
 ### Expedition Planner
-- [ ] Auto-generated expedition plan from target data
+- [x] Auto-generated expedition plan from target data (Claude Haiku, 4-phase)
 - [ ] Stage-gate workflow (Research → Survey → Validation → Recovery)
 - [x] Monte Carlo ROI simulation
-- [ ] Cost estimate builder (equipment, crew, permits, logistics)
+- [x] Cost estimate builder (equipment, crew, permits, logistics)
 
 ### Public Landing Page
 

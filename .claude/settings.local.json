@@ -1,21 +1,35 @@
 {
-	"permissions": {
-		"allow": [
-			"Bash(tree:*)",
-			"Bash(bun:*)",
-			"Bash(curl:*)",
-			"Bash(bunx biome:*)",
-			"WebFetch(domain:bun.com)",
-			"Bash(bunx drizzle-kit:*)",
-			"Bash(bunx tsc:*)",
-			"Bash(bun run:*)",
-			"WebFetch(domain:hono.dev)",
-			"WebFetch(domain:www.npmjs.com)",
-			"WebFetch(domain:github.com)",
-			"WebFetch(domain:raw.githubusercontent.com)",
-			"Bash(bunx playwright:*)",
-			"Bash(kill:*)",
-			"Bash(bunx:*)"
-		]
-	}
+  "permissions": {
+    "allow": [
+      "Bash(tree:*)",
+      "Bash(bun:*)",
+      "Bash(curl:*)",
+      "Bash(bunx biome:*)",
+      "WebFetch(domain:bun.com)",
+      "Bash(bunx drizzle-kit:*)",
+      "Bash(bunx tsc:*)",
+      "Bash(bun run:*)",
+      "WebFetch(domain:hono.dev)",
+      "WebFetch(domain:www.npmjs.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(bunx playwright:*)",
+      "Bash(kill:*)",
+      "Bash(bunx:*)",
+      "WebSearch",
+      "WebFetch(domain:www.rbth.com)",
+      "WebFetch(domain:en.wikipedia.org)",
+      "WebFetch(domain:www.nasdaq.com)",
+      "WebFetch(domain:english.pravda.ru)",
+      "WebFetch(domain:en.topwar.ru)",
+      "WebFetch(domain:english.radio.cz)",
+      "WebFetch(domain:archaeology-world.com)",
+      "WebFetch(domain:www.ibtimes.co.uk)",
+      "WebFetch(domain:www.loc.gov)",
+      "WebFetch(domain:www.thearchaeologist.org)",
+      "WebFetch(domain:www.oceantreasures.org)",
+      "WebFetch(domain:e-history.kz)",
+      "WebFetch(domain:www.publish0x.com)"
+    ]
+  }
 }

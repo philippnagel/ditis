@@ -1,13 +1,11 @@
 import type { Target } from "../db.js";
 import { goNoGo } from "../scoring.js";
+import { fmtBig } from "./helpers.js";
 import { renderTargetRow } from "./target-row.js";
 
 export function renderPipelineStats(targets: Target[]): string {
 	const totalValue = targets.reduce((sum, t) => sum + t.est_value_usd, 0);
-	const valueFmt =
-		totalValue >= 1e9
-			? `$${(totalValue / 1e9).toFixed(1)}B+`
-			: `$${(totalValue / 1e6).toFixed(1)}M+`;
+	const valueFmt = `${fmtBig(totalValue)}+`;
 	const goCount = targets.filter((t) => goNoGo(t) === "go").length;
 	return `<span class="pipeline-stat"><span class="pipeline-num">${targets.length}</span> TARGETS</span>
       <span class="pipeline-sep">·</span>
@@ -39,6 +37,12 @@ export function renderPage(targets: Target[]): string {
       <div class="header-actions">
         <button class="add-target-btn" onclick="document.getElementById('add-target-modal').showModal()">+ New</button>
         <button id="routes-toggle" class="routes-toggle-btn" onclick="toggleRoutes()" title="Toggle historical trade routes">Routes</button>
+        <button class="investor-btn"
+                hx-get="/investor"
+                hx-target="#investor-modal-body"
+                hx-swap="innerHTML"
+                hx-on::after-request="document.getElementById('investor-modal').showModal()"
+                title="Investor Portal">Investor</button>
         <button id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">◐</button>
       </div>
     </header>
@@ -205,6 +209,10 @@ export function renderPage(targets: Target[]): string {
       }
     })();
   </script>
+
+  <dialog id="investor-modal" class="investor-modal">
+    <div id="investor-modal-body" class="inv-body"></div>
+  </dialog>
 
   <script id="targets-data" type="application/json">${targetsJson}</script>
   <script src="/public/app.js" defer></script>
