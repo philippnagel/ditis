@@ -39,11 +39,22 @@ export function computeScore(f: ScoreFactors): number {
 	);
 }
 
+const SCORE_HIGH = 70;
+const SCORE_MID = 50;
+const SCORE_LOW = 35;
+
 export function scoreColor(score: number): string {
-	if (score >= 70) return "#10b981";
-	if (score >= 50) return "#f59e0b";
-	if (score >= 35) return "#ef4444";
+	if (score >= SCORE_HIGH) return "#10b981";
+	if (score >= SCORE_MID) return "#f59e0b";
+	if (score >= SCORE_LOW) return "#ef4444";
 	return "#6b7280";
+}
+
+export function scoreClass(score: number): string {
+	if (score >= SCORE_HIGH) return "score-high";
+	if (score >= SCORE_MID) return "score-mid";
+	if (score >= SCORE_LOW) return "score-low";
+	return "score-muted";
 }
 
 export type GoNoGo = "go" | "watch" | "nogo";

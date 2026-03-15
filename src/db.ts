@@ -656,7 +656,8 @@ const DEMO_SOURCES: Record<
 	],
 	"Cape of Good Hope VOC Wrecks": [
 		{
-			title: "Nationaal Archief (The Hague) — VOC Boekhouder-Generaal Registers",
+			title:
+				"Nationaal Archief (The Hague) — VOC Boekhouder-Generaal Registers",
 			type: "archival",
 			confidence_weight: 85,
 			excerpt:
@@ -672,14 +673,16 @@ const DEMO_SOURCES: Record<
 	],
 	"Kolchak's Gold — Baikal Lead": [
 		{
-			title: "Mir-2 Expedition Report — Circum-Baikal Railway, km 81, August 2010",
+			title:
+				"Mir-2 Expedition Report — Circum-Baikal Railway, km 81, August 2010",
 			type: "survey",
 			confidence_weight: 72,
 			excerpt:
 				"Mir-2 submersible descended to ~400m near Cape Tolstoy. Four bars with characteristic golden shine observed wedged in scree crevasse. Manipulator arm unable to retrieve due to substrate instability. Exact coordinates recorded by expedition team. Train wreckage and ammunition boxes confirmed in same zone from 2009 survey.",
 		},
 		{
-			title: "Smele, J.D. — White Gold: The Imperial Russian Gold Reserve in the Anti-Bolshevik East, 1918–? (Europe-Asia Studies, 1994)",
+			title:
+				"Smele, J.D. — White Gold: The Imperial Russian Gold Reserve in the Anti-Bolshevik East, 1918–? (Europe-Asia Studies, 1994)",
 			type: "archival",
 			confidence_weight: 85,
 			excerpt:
@@ -688,14 +691,16 @@ const DEMO_SOURCES: Record<
 	],
 	"Kolchak's Gold — Taiga Station Cache": [
 		{
-			title: "NKVD Operational File — Purrok Testimony and Taiga Station Excavations, 1941",
+			title:
+				"NKVD Operational File — Purrok Testimony and Taiga Station Excavations, 1941",
 			type: "survey",
 			confidence_weight: 58,
 			excerpt:
 				"Karl Purrok, Estonian national and former soldier of Kolchak's 21st Regiment, testified to burying 26 boxes of gold coins at ~2m depth approximately 5 versts from Taiga station, October 1919. NKVD transported Purrok to Siberia for excavation guidance. Multiple digs conducted; nothing recovered. Operation abandoned. Failure attributed to terrain change over 20 years and possible location imprecision.",
 		},
 		{
-			title: "Soviet People's Commissariat of Finance — Gold Reserve Certificate, June 1921",
+			title:
+				"Soviet People's Commissariat of Finance — Gold Reserve Certificate, June 1921",
 			type: "archival",
 			confidence_weight: 90,
 			excerpt:
@@ -704,14 +709,16 @@ const DEMO_SOURCES: Record<
 	],
 	"Kolchak's Gold — Czech Legion / Legiobanka": [
 		{
-			title: "Vojenský historický archiv (VHA), Praha — Czechoslovak Legion in Russia Fonds, 1914–1939",
+			title:
+				"Vojenský historický archiv (VHA), Praha — Czechoslovak Legion in Russia Fonds, 1914–1939",
 			type: "archival",
 			confidence_weight: 70,
 			excerpt:
 				"Complete operational and financial records of the Czechoslovak Legion in Russia held at the Military Historical Archive, Praha 8–Karlín. Includes armistice documents signed at Nizhneudinsk (January 1920), gold train handover protocols, and financial ledgers of the Legion's commercial operations in Siberia 1918–1920. Legion financial records have not been cross-referenced against the Soviet June 1921 audit.",
 		},
 		{
-			title: "Library of Congress — Tellberg Collection: Kolchak Interrogation Transcript, 1920",
+			title:
+				"Library of Congress — Tellberg Collection: Kolchak Interrogation Transcript, 1920",
 			url: "https://www.loc.gov/loc/lcib/9603/kolchak.html",
 			type: "archival",
 			confidence_weight: 82,
@@ -719,7 +726,8 @@ const DEMO_SOURCES: Record<
 				"262-page stenographic transcript of Kolchak's interrogation by the Irkutsk Extraordinary Commission, January–February 1920 (donated by George Tellberg, 1943). Kolchak's testimony on gold train disposition, Czech Legion conduct at Nizhneudinsk, and amounts transferred. Primary source for Kolchak's own account of the handover.",
 		},
 		{
-			title: "Radio Prague International — The Czechoslovak Legions: Myth, Reality, Gold and Glory",
+			title:
+				"Radio Prague International — The Czechoslovak Legions: Myth, Reality, Gold and Glory",
 			url: "https://english.radio.cz/czechoslovak-legions-myth-reality-gold-and-glory-8571034",
 			type: "archival",
 			confidence_weight: 62,
@@ -736,7 +744,8 @@ const DEMO_SOURCES: Record<
 				"Yuan dynastic history records 1281 Eastern Route Fleet of 900 vessels and Southern Route Fleet of 3,500 vessels. Combined force destroyed by typhoon ('kamikaze') in eighth month of Zhiyuan 18. Fleet composition and armament documented in detail.",
 		},
 		{
-			title: "Kyushu University — Takashima Underwater Archaeology Survey, 2011–2019",
+			title:
+				"Kyushu University — Takashima Underwater Archaeology Survey, 2011–2019",
 			type: "survey",
 			confidence_weight: 78,
 			excerpt:
@@ -745,7 +754,8 @@ const DEMO_SOURCES: Record<
 	],
 	"Ganj-i-Sawai": [
 		{
-			title: "British Library — East India Company Factory Records, Surat, 1695",
+			title:
+				"British Library — East India Company Factory Records, Surat, 1695",
 			type: "archival",
 			confidence_weight: 78,
 			excerpt:
@@ -768,7 +778,8 @@ const DEMO_SOURCES: Record<
 				"Black Sea Maritime Archaeology Project documented 65 shipwrecks using AUV survey at depths of 70–2,200m. 41 wrecks in anoxic layer (>150m) showed extraordinary organic preservation including intact rigging, rudders, and cargo amphorae. Byzantine to Ottoman period represented.",
 		},
 		{
-			title: "Ballard, R. et al. — Deep Black Sea Archaeology (National Geographic, 2001)",
+			title:
+				"Ballard, R. et al. — Deep Black Sea Archaeology (National Geographic, 2001)",
 			type: "survey",
 			confidence_weight: 72,
 			excerpt:
@@ -777,14 +788,16 @@ const DEMO_SOURCES: Record<
 	],
 	"Swahili Coast Trade Wrecks": [
 		{
-			title: "Arquivo Histórico Ultramarino (Lisbon) — Estado da India Loss Records",
+			title:
+				"Arquivo Histórico Ultramarino (Lisbon) — Estado da India Loss Records",
 			type: "archival",
 			confidence_weight: 65,
 			excerpt:
 				"Portuguese imperial archive documents 34 vessel losses along the East African coast 1498–1750. Cargo manifests for 18 survive. Key losses include the São João (1552, Natal coast) and Santo Alberto (1593, Mozambique). Search areas constrained to ±50km.",
 		},
 		{
-			title: "National Museums of Kenya — Coastal Underwater Heritage Survey, 2019",
+			title:
+				"National Museums of Kenya — Coastal Underwater Heritage Survey, 2019",
 			type: "survey",
 			confidence_weight: 52,
 			excerpt:

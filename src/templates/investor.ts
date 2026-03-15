@@ -1,5 +1,5 @@
 import type { Expedition, Target } from "../db.js";
-import { gngLabel, goNoGo, scoreColor, tierLabel } from "../scoring.js";
+import { gngLabel, goNoGo, scoreClass, tierLabel } from "../scoring.js";
 import { escHtml, fmtBig } from "./helpers.js";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -83,7 +83,6 @@ function renderTierCard(
 	}
 
 	const avgScore = Math.round((scoreSum / targets.length) * 10) / 10;
-	const scoreC = scoreColor(avgScore);
 
 	return `
   <div class="inv-tier-card" style="background:${bg};border-color:${border}">
@@ -92,7 +91,7 @@ function renderTierCard(
     <div class="inv-tier-value">${fmtBig(totalValue)}<span class="inv-tier-value-sub"> est. value</span></div>
     <div class="inv-tier-score-row">
       <span class="inv-tier-score-label">Avg score</span>
-      <span class="inv-tier-score" style="color:${scoreC}">${avgScore}</span>
+      <span class="inv-tier-score ${scoreClass(avgScore)}">${avgScore}</span>
     </div>
     <div class="inv-tier-gate-row">
       ${goCount > 0 ? `<span class="inv-gate-pill inv-gate-go">${goCount} GO</span>` : ""}
@@ -113,7 +112,6 @@ function renderTargetRow(
 	expsByTarget: Map<number, Expedition[]>,
 ): string {
 	const gng = goNoGo(t);
-	const scoreC = scoreColor(t.score);
 	const p = pSuccess(t);
 	const { amount: capital, estimated } = capitalForTarget(t, expsByTarget);
 	const en = p * expectedGross(t) - capital;
@@ -124,7 +122,7 @@ function renderTargetRow(
     <td class="inv-rank">${rank}</td>
     <td class="inv-target-name">${escHtml(t.name)}</td>
     <td><span class="inv-tier-badge" style="background:${bg};color:${text}">T${t.tier}</span></td>
-    <td><span class="inv-score-cell" style="color:${scoreC}">${t.score}</span></td>
+    <td><span class="inv-score-cell ${scoreClass(t.score)}">${t.score}</span></td>
     <td class="inv-num">${fmtBig(t.est_value_usd)}</td>
     <td class="inv-num inv-muted">${fmtBig(capital)}${estimated ? "*" : ""}</td>
     <td class="inv-num">${fmtPct(p)}</td>

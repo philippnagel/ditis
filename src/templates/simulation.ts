@@ -55,7 +55,7 @@ export function renderSimulationResults(
 		bucket_size,
 	} = result;
 
-	const returnColor = expected_return >= 0 ? "#10b981" : "#ef4444";
+	const returnClass = expected_return >= 0 ? "sim-val-pos" : "sim-val-neg";
 
 	const bars = histogram
 		.map((h, i) => {
@@ -90,7 +90,7 @@ export function renderSimulationResults(
   <div class="sim-stats">
     <div class="sim-stat">
       <div class="sim-stat-label">Expected Return</div>
-      <div class="sim-stat-value" style="color:${returnColor}">${fmtMoney(expected_return)}</div>
+      <div class="sim-stat-value ${returnClass}">${fmtMoney(expected_return)}</div>
     </div>
     <div class="sim-stat">
       <div class="sim-stat-label">Breakeven Odds</div>

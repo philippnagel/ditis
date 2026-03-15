@@ -3,7 +3,8 @@ import {
 	FACTOR_META,
 	gngLabel,
 	goNoGo,
-	scoreColor,
+	scoreClass,
+	scoreColor, // used for slider --fill CSS custom property
 	tierLabel,
 } from "../scoring.js";
 import { renderExpeditionsInner } from "./expeditions.js";
@@ -17,7 +18,7 @@ export function renderDetail(
 	nts: Note[],
 	exps: Expedition[],
 ): string {
-	const color = scoreColor(t.score);
+	const sClass = scoreClass(t.score);
 	const gng = goNoGo(t);
 	const factors = Object.entries(FACTOR_META) as [
 		keyof typeof FACTOR_META,
@@ -87,7 +88,7 @@ export function renderDetail(
           </div>
         </div>
       </div>
-      <div class="composite-score" id="live-score-wrap" style="color:${color}">
+      <div class="composite-score ${sClass}" id="live-score-wrap">
         <span id="live-score">${t.score}</span><span class="composite-denom">/100</span>
       </div>
       <form hx-patch="/targets/${t.id}/scores"

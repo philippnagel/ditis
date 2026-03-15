@@ -1,8 +1,8 @@
 import type { Target } from "../db.js";
-import { gngLabel, goNoGo, scoreColor } from "../scoring.js";
+import { gngLabel, goNoGo, scoreClass } from "../scoring.js";
 
 export function renderTargetRow(t: Target, rank: number): string {
-	const color = scoreColor(t.score);
+	const sClass = scoreClass(t.score);
 	const gng = goNoGo(t);
 	const isComplete = t.status === "complete";
 	return `
@@ -20,6 +20,6 @@ export function renderTargetRow(t: Target, rank: number): string {
           <span class="gonogo-pill gonogo-${gng}">${gngLabel(gng)}</span>
         </div>
       </div>
-      <div class="score-badge" id="score-badge-${t.id}" style="color:${color}">${t.score}</div>
+      <div class="score-badge ${sClass}" id="score-badge-${t.id}">${t.score}</div>
     </div>`;
 }
