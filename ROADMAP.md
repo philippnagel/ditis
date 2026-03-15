@@ -27,7 +27,7 @@
 - [x] Zod request/response schemas (`src/schemas.ts`)
 
 ### Ingest Pipeline
-- [x] Manual target entry form (UI)
+- [x] Manual target entry form (UI) with geocoding search + manual coordinate fallback
 - [ ] Archival document upload + OCR (basic)
 - [ ] NLP/NER extraction (ships, dates, locations, cargo)
 - [ ] Geocoding of location references from historical text
@@ -39,7 +39,8 @@
 
 ### Map
 - [x] Full-screen Deck.gl + MapLibre GL map
-- [x] Targets as color-coded score dots
+- [x] Auto-fit map to all targets on load (fitBounds)
+- [x] Targets as color-coded score dots (complete targets visually distinct: smaller, dimmed, colored stroke)
 - [x] Hover tooltip (name, score, tier)
 - [x] Click to fly-to and select target
 - [x] Dark / light mode toggle (persisted)
@@ -58,7 +59,7 @@
 - [x] Inline score editing (adjust factors, see score update live)
 - [x] Source documents panel (list of archival sources per target)
 - [x] Research notes panel (timestamped free-text notes per target)
-- [x] Pipeline stats bar (target count + total estimated value)
+- [x] Pipeline stats bar (target count + GO count + total estimated value)
 - [x] Target status workflow selector (Research → Survey → Validation → Recovery → Complete)
 - [x] Target create (modal form) and delete (via ⋯ kebab menu)
 - [x] Expedition history panel (past and planned survey/recovery expeditions)
@@ -82,6 +83,7 @@
 - [ ] SSO-based authentication and user roles
 - [ ] Deployment of the platform 
 - [ ] Deployment of the landing page
+- [ ] Add tests to critical paths
 
 ---
 

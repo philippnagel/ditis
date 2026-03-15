@@ -4,13 +4,14 @@ import { goNoGo, scoreColor } from "../scoring.js";
 export function renderTargetRow(t: Target, rank: number): string {
 	const color = scoreColor(t.score);
 	const gng = goNoGo(t);
+	const isComplete = t.status === "complete";
 	return `
-    <div class="target-row" id="target-row-${t.id}" data-id="${t.id}" data-name="${t.name}" data-lat="${t.lat}" data-lng="${t.lng}"
+    <div class="target-row${isComplete ? " target-row--complete" : ""}" id="target-row-${t.id}" data-id="${t.id}" data-name="${t.name}" data-lat="${t.lat}" data-lng="${t.lng}"
          onclick="selectTarget(${t.id}, ${t.lng}, ${t.lat})"
          hx-get="/targets/${t.id}/detail"
          hx-target="#detail-panel"
          hx-swap="innerHTML">
-      <span class="rank">${rank}</span>
+      <span class="rank">${isComplete ? "✓" : rank}</span>
       <div class="target-info">
         <div class="target-name">${t.name}</div>
         <div class="target-meta">

@@ -21,6 +21,10 @@ export interface ClientTarget {
 	est_value_usd: number;
 }
 
+function isComplete(d: ClientTarget) {
+	return d.status === "complete";
+}
+
 let _overlay: MapboxOverlay | null = null;
 let _map: maplibregl.Map | null = null;
 let _selectedId: number | null = null;
@@ -53,16 +57,21 @@ function buildLayers(selectedId: number | null) {
 			id: "targets",
 			data: _targets,
 			getPosition: (d) => [d.lng, d.lat],
-			getRadius: (d) => (selectedId === d.id ? 110000 : 70000),
+			getRadius: (d) =>
+				selectedId === d.id ? 110000 : isComplete(d) ? 55000 : 70000,
 			radiusUnits: "meters",
 			radiusMinPixels: 5,
 			radiusMaxPixels: 28,
 			getFillColor: (d) => {
 				if (_filterIds && !_filterIds.has(d.id)) return [80, 80, 80, 50];
+				if (isComplete(d))
+					return hexToRgba(scoreColor(d.score), selectedId === d.id ? 200 : 90);
 				return hexToRgba(scoreColor(d.score), selectedId === d.id ? 255 : 195);
 			},
-			getLineColor: (d) =>
-				selectedId === d.id ? [16, 185, 129, 255] : [255, 255, 255, 50],
+			getLineColor: (d) => {
+				if (isComplete(d)) return hexToRgba(scoreColor(d.score), 220);
+				return selectedId === d.id ? [16, 185, 129, 255] : [255, 255, 255, 50];
+			},
 			lineWidthMinPixels: selectedId ? 1.5 : 1,
 			stroked: true,
 			pickable: true,
@@ -176,5 +185,17 @@ export function initMap(targets: ClientTarget[]): void {
 			layers: buildLayers(null),
 		});
 		_map?.addControl(_overlay as unknown as maplibregl.IControl);
+
+		if (_targets.length > 0) {
+			const bounds = new maplibregl.LngLatBounds();
+			for (const t of _targets) {
+				bounds.extend([t.lng, t.lat]);
+			}
+			_map?.fitBounds(bounds, {
+				padding: 80,
+				maxZoom: 6,
+				duration: 0,
+			});
+		}
 	});
 }

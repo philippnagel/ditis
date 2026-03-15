@@ -1388,3 +1388,65 @@ hr.section-divider {
 	.source-item { border: 1px solid #eee; margin-bottom: 6px; }
 	.gonogo-badge, .tier-badge, .status-select { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
 }
+
+/* ─── Geocoding result ──────────────────────────────────────────────────────── */
+.geocode-result {
+	color: var(--muted);
+	font-size: 10px;
+	letter-spacing: 0.02em;
+	line-height: 1.4;
+	margin-top: 4px;
+	min-height: 14px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/* ─── Pipeline GO stat ──────────────────────────────────────────────────────── */
+.pipeline-stat-go .pipeline-num {
+	color: #10b981;
+}
+
+/* ─── Completed target row ──────────────────────────────────────────────────── */
+.target-row--complete {
+	opacity: 0.65;
+}
+
+.target-row--complete .rank {
+	color: #10b981;
+	font-size: 12px;
+}
+
+.target-row--complete .target-name {
+	text-decoration: line-through;
+	text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+}
+
+/* ─── Manual coordinates fallback ──────────────────────────────────────────── */
+.manual-coords-toggle {
+	background: transparent;
+	border: none;
+	color: var(--muted);
+	cursor: pointer;
+	font-size: 10px;
+	margin-top: 4px;
+	padding: 0;
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.manual-coords-toggle:hover {
+	color: var(--text);
+}
+
+.manual-coords {
+	margin-top: 6px;
+}
+
+.manual-coords .form-row-2 {
+	gap: 8px;
+}
+
+.manual-coords input {
+	width: 100%;
+}

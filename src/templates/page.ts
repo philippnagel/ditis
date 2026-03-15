@@ -1,4 +1,5 @@
 import type { Target } from "../db.js";
+import { goNoGo } from "../scoring.js";
 import { renderTargetRow } from "./target-row.js";
 
 export function renderPipelineStats(targets: Target[]): string {
@@ -7,7 +8,10 @@ export function renderPipelineStats(targets: Target[]): string {
 		totalValue >= 1e9
 			? `$${(totalValue / 1e9).toFixed(1)}B+`
 			: `$${(totalValue / 1e6).toFixed(1)}M+`;
+	const goCount = targets.filter((t) => goNoGo(t) === "go").length;
 	return `<span class="pipeline-stat"><span class="pipeline-num">${targets.length}</span> TARGETS</span>
+      <span class="pipeline-sep">·</span>
+      <span class="pipeline-stat pipeline-stat-go"><span class="pipeline-num">${goCount}</span> GO</span>
       <span class="pipeline-sep">·</span>
       <span class="pipeline-stat"><span class="pipeline-num">${valueFmt}</span> PIPELINE</span>`;
 }
@@ -65,14 +69,18 @@ export function renderPage(targets: Target[]): string {
           <label>Name *</label>
           <input type="text" name="name" required placeholder="e.g. Atocha Galleon">
         </div>
-        <div class="form-row-2">
-          <div class="form-row">
-            <label>Latitude *</label>
-            <input type="number" name="lat" required step="0.001" placeholder="27.640">
-          </div>
-          <div class="form-row">
-            <label>Longitude *</label>
-            <input type="number" name="lng" required step="0.001" placeholder="-80.370">
+        <div class="form-row">
+          <label>Location *</label>
+          <input type="text" id="location-search" placeholder="Search location… e.g. Vero Beach, FL" oninput="debounceGeocode(this.value)" autocomplete="off">
+          <input type="hidden" name="lat" id="lat-hidden">
+          <input type="hidden" name="lng" id="lng-hidden">
+          <div id="geocode-result" class="geocode-result"></div>
+          <button type="button" class="manual-coords-toggle" onclick="toggleManualCoords()">Enter coordinates manually</button>
+          <div id="manual-coords" class="manual-coords" style="display:none">
+            <div class="form-row-2">
+              <input type="number" id="lat-manual" step="0.001" placeholder="Lat e.g. 27.640" oninput="applyManualCoords()">
+              <input type="number" id="lng-manual" step="0.001" placeholder="Lng e.g. -80.370" oninput="applyManualCoords()">
+            </div>
           </div>
         </div>
         <div class="form-row-2">
@@ -105,10 +113,98 @@ export function renderPage(targets: Target[]): string {
       </div>
       <div class="modal-footer">
         <button type="button" class="btn-cancel" onclick="document.getElementById('add-target-modal').close()">Cancel</button>
-        <button type="submit" class="btn-primary">Add Target</button>
+        <button type="submit" id="add-target-submit" class="btn-primary" disabled>Add Target</button>
       </div>
     </form>
   </dialog>
+
+  <script>
+    (function () {
+      var _geocodeTimer = null;
+
+      function resetGeocodeState() {
+        document.getElementById('lat-hidden').value = '';
+        document.getElementById('lng-hidden').value = '';
+        document.getElementById('geocode-result').textContent = '';
+        document.getElementById('add-target-submit').disabled = true;
+      }
+
+      window.debounceGeocode = function (val) {
+        clearTimeout(_geocodeTimer);
+        resetGeocodeState();
+        var q = val.trim();
+        if (!q) return;
+        _geocodeTimer = setTimeout(function () { geocodeLocation(q); }, 500);
+      };
+
+      window.geocodeLocation = function (q) {
+        var resultEl = document.getElementById('geocode-result');
+        resultEl.textContent = 'Searching…';
+        fetch('https://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(q) + '&format=json&limit=1', {
+          headers: { 'User-Agent': 'DitisCore/0.1' }
+        })
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            if (!data || data.length === 0) {
+              resultEl.textContent = 'No results found.';
+              return;
+            }
+            var place = data[0];
+            var lat = parseFloat(place.lat);
+            var lng = parseFloat(place.lon);
+            document.getElementById('lat-hidden').value = lat.toFixed(6);
+            document.getElementById('lng-hidden').value = lng.toFixed(6);
+            resultEl.textContent = place.display_name + ' (' + lat.toFixed(4) + ', ' + lng.toFixed(4) + ')';
+            document.getElementById('add-target-submit').disabled = false;
+          })
+          .catch(function () {
+            resultEl.textContent = 'Geocoding failed. Please try again.';
+          });
+      };
+
+      window.toggleManualCoords = function () {
+        var el = document.getElementById('manual-coords');
+        var isHidden = el.style.display === 'none';
+        el.style.display = isHidden ? 'block' : 'none';
+        if (isHidden) {
+          document.getElementById('location-search').value = '';
+          resetGeocodeState();
+          document.getElementById('geocode-result').textContent = '';
+        } else {
+          document.getElementById('lat-manual').value = '';
+          document.getElementById('lng-manual').value = '';
+          resetGeocodeState();
+        }
+      };
+
+      window.applyManualCoords = function () {
+        var lat = parseFloat(document.getElementById('lat-manual').value);
+        var lng = parseFloat(document.getElementById('lng-manual').value);
+        if (!isNaN(lat) && !isNaN(lng) && lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
+          document.getElementById('lat-hidden').value = lat.toFixed(6);
+          document.getElementById('lng-hidden').value = lng.toFixed(6);
+          document.getElementById('geocode-result').textContent = lat.toFixed(4) + ', ' + lng.toFixed(4);
+          document.getElementById('add-target-submit').disabled = false;
+        } else {
+          document.getElementById('lat-hidden').value = '';
+          document.getElementById('lng-hidden').value = '';
+          document.getElementById('add-target-submit').disabled = true;
+        }
+      };
+
+      // Reset geocode state when modal is closed so a re-open starts fresh
+      var modal = document.getElementById('add-target-modal');
+      if (modal) {
+        modal.addEventListener('close', function () {
+          document.getElementById('location-search').value = '';
+          document.getElementById('manual-coords').style.display = 'none';
+          document.getElementById('lat-manual').value = '';
+          document.getElementById('lng-manual').value = '';
+          resetGeocodeState();
+        });
+      }
+    })();
+  </script>
 
   <script id="targets-data" type="application/json">${targetsJson}</script>
   <script src="/public/app.js" defer></script>

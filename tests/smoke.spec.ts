@@ -79,7 +79,9 @@ test("kebab menu opens and contains print + delete actions", async ({
 	// Click ⋯ to open
 	await page.locator(".detail-menu-btn").click();
 	await expect(page.locator(".detail-menu-dropdown")).toBeVisible();
-	await expect(page.locator(".detail-menu-item").first()).toContainText("Print");
+	await expect(page.locator(".detail-menu-item").first()).toContainText(
+		"Print",
+	);
 	await expect(page.locator(".detail-menu-item-danger")).toContainText(
 		"Delete",
 	);
